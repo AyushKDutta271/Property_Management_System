@@ -1,0 +1,21 @@
+git init
+
+git add .
+
+git commit -m ""
+
+git remote add origin remoteRepoLink
+
+
+git remote set-url origin https://userName:accessToken@github.com/userName/githubRepo.git
+
+
+git push --set-upstream origin master
+
+view the changes in GitHub repo
+
+git branch -m master main
+
+git pull origin main --allow-unrelated-histories
+
+git push origin main
