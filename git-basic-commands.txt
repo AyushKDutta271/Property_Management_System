@@ -1,13 +1,17 @@
 =====================================================
+#To make current dir a git-dir
 git init
 
+#to track changes and add in staging area
 git add .
 
+#to version control with a message
 git commit -m ""
 
+#to connect remote github repo with local repo whose name is origin
 git remote add origin remoteRepoLink
 
-
+#to perform operations on remote github repo from local repo i.e. origin , through access token authentication and authorization
 git remote set-url origin https://userName:accessToken@github.com/userName/githubRepo.git
 
 
@@ -15,8 +19,11 @@ git push --set-upstream origin master
 
 view the changes in GitHub repo
 
+#change name of local repo branch from master to main because in remote repo the branch is main
 git branch -m master main
 
+#get all changes to your local repo even if the commit histories don't match
 git pull origin main --allow-unrelated-histories
 
+#to push from origin(local) to main(remote repo)
 git push origin main
