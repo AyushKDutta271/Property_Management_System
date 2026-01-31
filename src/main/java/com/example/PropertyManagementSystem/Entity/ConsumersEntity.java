@@ -20,6 +20,8 @@ public class ConsumersEntity {
 
     private String firstName;
     private String lastName;
+    private String EmailId;
+    private String password;
     private Boolean permission;
     private CATEGORY category;
     private Long propertyId;
