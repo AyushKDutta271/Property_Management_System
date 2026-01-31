@@ -1,5 +1,6 @@
 package com.example.PropertyManagementSystem.Service;
 
+import com.example.PropertyManagementSystem.AdapterDesign.ClassesConversions;
 import com.example.PropertyManagementSystem.Dto.ConsumersDetailsDto;
 import com.example.PropertyManagementSystem.Dto.ConsumersDto;
 import com.example.PropertyManagementSystem.Dto.PropertyDetailsDto;
@@ -22,6 +23,8 @@ import java.util.Map;
 public class PropertyServiceImpl implements PropertyService{
 
     @Autowired
+    private ClassesConversions classConvo;
+    @Autowired
     private PropertyRepo propRepo;
 
     @Autowired
@@ -40,41 +43,32 @@ public class PropertyServiceImpl implements PropertyService{
             default: System.out.println("It has to be either BUYERS or SELLERS");
         }
         List<ConsumersDto> result=new ArrayList<>();
-        return consumers.stream().map(e->new ConsumersDto(e.getId(),e.getFirstName(),e.getLastName(),e.getPermission(),e.getCategory(),e.getPropertyId())).toList();
+        return consumers.stream().map(e->classConvo.fromConsumersEntityToConsumersDto(e)).toList();
     }
 
     @Override
     public List<PropertyDto> getAllPropertiesByCustomerId(Long CustomerId) {
-        List<PropertyEntity> list = new ArrayList<>();
-       list= propRepo.findAllPropertiesByCustomerId(CustomerId);
-      return list.stream().map(e->new PropertyDto(e.getId(),e.getSellerId(),e.getType(),e.getOwnerId())).toList();
+        List<PropertyEntity>  list= propRepo.findAllPropertiesByCustomerId(CustomerId);
+      return list.stream().map(e->classConvo.fromPropertyEntityToPropertyDto(e)).toList();
     }
 
     @Override
     public PropertyDto getPropertyByPropertyId(Long PropertyId) {
         PropertyEntity property= propRepo.findById(PropertyId).orElseThrow(()->new IllegalArgumentException("Property not found!"));
-        return new PropertyDto(property.getId(),property.getSellerId(),property.getType(),property.getOwnerId());
+        return classConvo.fromPropertyEntityToPropertyDto(property);
     }
 
     @Override
     public ConsumersDto createConsumer(ConsumersDetailsDto consumer) {
-      ConsumersEntity entity = new ConsumersEntity();
-      entity.setFirstName(consumer.getFirstName());
-      entity.setLastName(consumer.getLastName());
-      entity.setPermission(consumer.getPermission());
-      entity.setCategory(consumer.getCategory());
-      entity.setPropertyId(consumer.getPropertyId());
+     ConsumersEntity entity= classConvo.fromConsumersDtoToConsumerEntity(consumer);
         ConsumersEntity cons= consRepo.save(entity);
-        return new ConsumersDto(cons.getId(),cons.getFirstName(),cons.getLastName(),cons.getPermission(),cons.getCategory(),cons.getPropertyId());
+        return classConvo.fromConsumersEntityToConsumersDto(cons);
     }
 
     @Override
     public PropertyDto postProperty(PropertyDetailsDto property) {
-        PropertyEntity prop = new PropertyEntity();
-        prop.setType(property.getType());
-        prop.setOwnerId(property.getOwnerId());
-        prop.setSellerId(property.getSellerId());
-       return  new PropertyDto(prop.getId(),prop.getSellerId(),prop.getType(),prop.getOwnerId());
+      PropertyEntity prop= classConvo.fromPropertyDtoToPropertyEntity(property);
+       return  classConvo.fromPropertyEntityToPropertyDto(prop);
     }
 
     @Override
@@ -95,13 +89,13 @@ public class PropertyServiceImpl implements PropertyService{
                 case "ownerId": prop.setOwnerId((Long)v);break;
             }
         });
-     return new PropertyDto(prop.getId(),prop.getSellerId(),prop.getType(),prop.getOwnerId());
+     return classConvo.fromPropertyEntityToPropertyDto(prop);
     }
 
     @Override
     public List<PropertyDto> listPropertiesWithStatus(String status) {
        List<PropertyEntity> property= propRepo.findAllByStatus(status);
-      return property.stream().map(e->new PropertyDto(e.getId(),e.getSellerId(),e.getType(),e.getOwnerId())).toList();
+      return property.stream().map(e->classConvo.fromPropertyEntityToPropertyDto(e)).toList();
     }
 
     @Override
@@ -113,7 +107,7 @@ public class PropertyServiceImpl implements PropertyService{
       //doubt : is this how we should do...just modifying body and not adding it as new entry in table?!
         //how does it work internally in the context of transient and persistent states.
      PropertyEntity propertyEntity= propRepo.save(prop);
-     return new PropertyDto(propertyEntity.getId(),propertyEntity.getSellerId(),propertyEntity.getType(),propertyEntity.getOwnerId());
+     return classConvo.fromPropertyEntityToPropertyDto(propertyEntity);
     }
 
     @Override
