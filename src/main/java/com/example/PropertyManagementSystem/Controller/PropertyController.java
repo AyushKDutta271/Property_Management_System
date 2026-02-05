@@ -93,23 +93,12 @@ public class PropertyController {
     }
 
     @PostMapping("/consumerLogin")
-    public ResponseEntity<?> consumerLogin(@RequestBody ConsumerLoginDto body)
+    public ResponseEntity<?> consumerLogin(@RequestBody ConsumerLoginDto body) throws Exception
     {
-       try {
+
            ConsumersDto consumer= consLoginService.consumerLogin(body.getEmailId(),body.getPassword());
            return ResponseEntity.ok(consumer);
-       }
-       catch(BusinessException _)
-       {
-         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-       }
-       catch(IllegalArgumentException ex)
-       {
-           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid credentials"+ ex.getMessage());
-       }
-       catch(Exception _)
-       {
-           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-       }
+
+      
     }
 }
