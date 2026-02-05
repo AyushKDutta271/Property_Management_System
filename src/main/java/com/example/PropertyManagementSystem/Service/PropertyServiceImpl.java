@@ -42,7 +42,7 @@ public class PropertyServiceImpl implements PropertyService{
 
             default: System.out.println("It has to be either BUYERS or SELLERS");
         }
-        List<ConsumersDto> result=new ArrayList<>();
+
         return consumers.stream().map(e->classConvo.fromConsumersEntityToConsumersDto(e)).toList();
     }
 
