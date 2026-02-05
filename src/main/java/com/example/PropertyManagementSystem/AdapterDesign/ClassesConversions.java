@@ -23,6 +23,8 @@ public class ClassesConversions {
         ConsumersEntity entity = new ConsumersEntity();
         entity.setFirstName(consumer.getFirstName());
         entity.setLastName(consumer.getLastName());
+        entity.setEmailId(consumer.getEmailId());
+        entity.setPassword(consumer.getPassword());
         entity.setPermission(consumer.getPermission());
         entity.setCategory(consumer.getCategory());
         entity.setPropertyId(consumer.getPropertyId());
@@ -32,7 +34,7 @@ public class ClassesConversions {
 
     public ConsumersDto fromConsumersEntityToConsumersDto(ConsumersEntity cons)
     {
-        return new ConsumersDto(cons.getId(),cons.getFirstName(),cons.getLastName(),cons.getPermission(),cons.getCategory(),cons.getPropertyId());
+        return new ConsumersDto(cons.getId(),cons.getFirstName(),cons.getLastName(),cons.getEmailId(),null,cons.getPermission(),cons.getCategory(),cons.getPropertyId());
     }
 
     public PropertyEntity fromPropertyDtoToPropertyEntity(PropertyDetailsDto property)
