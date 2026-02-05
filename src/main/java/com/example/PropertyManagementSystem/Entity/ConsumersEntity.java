@@ -1,10 +1,7 @@
 package com.example.PropertyManagementSystem.Entity;
 
 import com.example.PropertyManagementSystem.CATEGORY;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @AllArgsConstructor
@@ -20,9 +17,11 @@ public class ConsumersEntity {
 
     private String firstName;
     private String lastName;
-    private String EmailId;
+    private String emailId;
     private String password;
     private Boolean permission;
+
+    @Enumerated(EnumType.STRING)
     private CATEGORY category;
     private Long propertyId;
 }

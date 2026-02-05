@@ -1,11 +1,10 @@
 package com.example.PropertyManagementSystem.Controller;
 
-import com.example.PropertyManagementSystem.Dto.ConsumersDetailsDto;
-import com.example.PropertyManagementSystem.Dto.ConsumersDto;
-import com.example.PropertyManagementSystem.Dto.PropertyDetailsDto;
-import com.example.PropertyManagementSystem.Dto.PropertyDto;
+import com.example.PropertyManagementSystem.Dto.*;
+import com.example.PropertyManagementSystem.Exception.BusinessException;
+import com.example.PropertyManagementSystem.Exception.InvalidLoginException;
+import com.example.PropertyManagementSystem.Service.ConsumerLoginService;
 import com.example.PropertyManagementSystem.Service.PropertyService;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,6 +21,9 @@ public class PropertyController {
 
     @Autowired
     private PropertyService service;
+
+    @Autowired
+    private ConsumerLoginService consLoginService;
 
     @Value("${spring.jpa.properties.hibernate.dialect:}")
     String dbConfigDetails;
@@ -88,5 +90,15 @@ public class PropertyController {
     {
         service.removeProperty(PropertyId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/consumerLogin")
+    public ResponseEntity<?> consumerLogin(@RequestBody ConsumerLoginDto body) throws Exception
+    {
+
+           ConsumersDto consumer= consLoginService.consumerLogin(body.getEmailId(),body.getPassword());
+           return ResponseEntity.ok(consumer);
+
+      
     }
 }
