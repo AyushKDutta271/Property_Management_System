@@ -1,8 +1,8 @@
 package com.example.PropertyManagementSystem.Controller;
 
 import com.example.PropertyManagementSystem.Dto.*;
-import com.example.PropertyManagementSystem.Exception.BusinessException;
-import com.example.PropertyManagementSystem.Exception.InvalidLoginException;
+
+import com.example.PropertyManagementSystem.STATUS;
 import com.example.PropertyManagementSystem.Service.ConsumerLoginService;
 import com.example.PropertyManagementSystem.Service.PropertyService;
 
@@ -74,7 +74,7 @@ public class PropertyController {
     @GetMapping("/getPropertiesByStatus")
     public ResponseEntity<List<PropertyDto>> getPropertiesByStatus(@RequestParam String status)
     {
-        List<PropertyDto> properties  = service.listPropertiesWithStatus(status);
+        List<PropertyDto> properties  = service.listPropertiesWithStatus(STATUS.valueOf(status));
         return ResponseEntity.status(HttpStatus.OK).body(properties);
     }
 
@@ -93,12 +93,9 @@ public class PropertyController {
     }
 
     @PostMapping("/consumerLogin")
-    public ResponseEntity<?> consumerLogin(@RequestBody ConsumerLoginDto body) throws Exception
+    public ResponseEntity<ConsumersDto> consumerLogin(@RequestBody ConsumerLoginDto body) throws Exception
     {
-
            ConsumersDto consumer= consLoginService.consumerLogin(body.getEmailId(),body.getPassword());
            return ResponseEntity.ok(consumer);
-
-      
     }
 }

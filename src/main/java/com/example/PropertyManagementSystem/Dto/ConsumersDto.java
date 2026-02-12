@@ -7,13 +7,11 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.*;
 
-@Getter
-@Setter
+//@Getter
+//@Setter
 @JsonInclude(JsonInclude.Include.NON_NULL)//Not include null value properties in json data
 @JsonIgnoreProperties(ignoreUnknown=true)//ignore properties with unknown values
 @AllArgsConstructor
-@NoArgsConstructor
-@RequiredArgsConstructor
 public class ConsumersDto {
     private Long id;
     private String firstName;
@@ -26,4 +24,68 @@ public class ConsumersDto {
     @Enumerated(EnumType.STRING)
     private CATEGORY category;
     private Long propertyId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getPermission() {
+        return permission;
+    }
+
+    public void setPermission(Boolean permission) {
+        this.permission = permission;
+    }
+
+    public CATEGORY getCategory() {
+        return category;
+    }
+
+    public void setCategory(CATEGORY category) {
+        this.category = category;
+    }
+
+    public Long getPropertyId() {
+        return propertyId;
+    }
+
+    public void setPropertyId(Long propertyId) {
+        this.propertyId = propertyId;
+    }
 }

@@ -8,9 +8,12 @@ import com.example.PropertyManagementSystem.Dto.PropertyDto;
 import com.example.PropertyManagementSystem.CATEGORY;
 import com.example.PropertyManagementSystem.Entity.ConsumersEntity;
 import com.example.PropertyManagementSystem.Entity.PropertyEntity;
+import com.example.PropertyManagementSystem.Exception.BusinessException;
+import com.example.PropertyManagementSystem.Exception.ErrorModel;
 import com.example.PropertyManagementSystem.PropertyType;
 import com.example.PropertyManagementSystem.Repository.ConsumerRepo;
 import com.example.PropertyManagementSystem.Repository.PropertyRepo;
+import com.example.PropertyManagementSystem.STATUS;
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class PropertyServiceImpl implements PropertyService{
@@ -48,7 +52,7 @@ public class PropertyServiceImpl implements PropertyService{
 
     @Override
     public List<PropertyDto> getAllPropertiesByCustomerId(Long CustomerId) {
-        List<PropertyEntity>  list= propRepo.findAllPropertiesByCustomerId(CustomerId);
+        List<PropertyEntity>  list= propRepo.findAllPropertiesBySellerId(CustomerId);
       return list.stream().map(e->classConvo.fromPropertyEntityToPropertyDto(e)).toList();
     }
 
@@ -60,6 +64,17 @@ public class PropertyServiceImpl implements PropertyService{
 
     @Override
     public ConsumersDto createConsumer(ConsumersDetailsDto consumer) {
+        Optional<ConsumersEntity> entity1= consRepo.findByEmailId(consumer.getEmailId());
+        if(entity1.isPresent())
+        {
+            ErrorModel error = new ErrorModel();
+            error.setErrorCode("USER_ALREADY_EXISTS");
+            error.setMessage("EmailId is already registered! Plz login or enter new EmailId");
+            List<ErrorModel> list = new ArrayList<>();
+            list.add(error);
+
+            throw new BusinessException(list);
+        }
      ConsumersEntity entity= classConvo.fromConsumersDtoToConsumerEntity(consumer);
         ConsumersEntity cons= consRepo.save(entity);
         return classConvo.fromConsumersEntityToConsumersDto(cons);
@@ -93,8 +108,8 @@ public class PropertyServiceImpl implements PropertyService{
     }
 
     @Override
-    public List<PropertyDto> listPropertiesWithStatus(String status) {
-       List<PropertyEntity> property= propRepo.findAllByStatus(status);
+    public List<PropertyDto> listPropertiesWithStatus(STATUS status) {
+       List<PropertyEntity> property= propRepo.findAllByStatus(String.valueOf(status));
       return property.stream().map(e->classConvo.fromPropertyEntityToPropertyDto(e)).toList();
     }
 

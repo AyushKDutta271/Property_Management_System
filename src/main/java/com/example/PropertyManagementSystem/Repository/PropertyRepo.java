@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface PropertyRepo extends CrudRepository<PropertyEntity,Long> {
-    List<PropertyEntity> findAllPropertiesByCustomerId(Long customerId);
+    List<PropertyEntity> findAllPropertiesBySellerId(Long sellerId);
     List<PropertyEntity> findAllByStatus(String status);
 }

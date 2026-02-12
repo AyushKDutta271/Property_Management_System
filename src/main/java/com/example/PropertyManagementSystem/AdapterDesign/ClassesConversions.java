@@ -6,17 +6,12 @@ import com.example.PropertyManagementSystem.Dto.PropertyDetailsDto;
 import com.example.PropertyManagementSystem.Dto.PropertyDto;
 import com.example.PropertyManagementSystem.Entity.ConsumersEntity;
 import com.example.PropertyManagementSystem.Entity.PropertyEntity;
-import com.example.PropertyManagementSystem.Repository.ConsumerRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class ClassesConversions {
-    @Autowired
-    private ConsumerRepo consRepo;
 
-    @Autowired
-    private PropertyEntity propRepo;
 
     public ConsumersEntity fromConsumersDtoToConsumerEntity(ConsumersDetailsDto consumer)
     {
@@ -43,12 +38,13 @@ public class ClassesConversions {
         prop.setType(property.getType());
         prop.setOwnerId(property.getOwnerId());
         prop.setSellerId(property.getSellerId());
+        prop.setStatus(property.getStatus());
         return prop;
     }
 
     public PropertyDto fromPropertyEntityToPropertyDto(PropertyEntity prop)
     {
-        return  new PropertyDto(prop.getId(),prop.getSellerId(),prop.getType(),prop.getOwnerId());
+        return  new PropertyDto(prop.getId(),prop.getSellerId(),prop.getStatus(),prop.getType(),prop.getOwnerId());
     }
 
 }

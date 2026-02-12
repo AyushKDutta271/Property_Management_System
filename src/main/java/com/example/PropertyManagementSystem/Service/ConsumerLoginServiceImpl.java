@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ConsumerLoginServiceImpl implements ConsumerLoginService{
@@ -26,21 +27,23 @@ public class ConsumerLoginServiceImpl implements ConsumerLoginService{
         this.consRepo=consRepo;
     }
     @Override
-    public ConsumersDto consumerLogin(String email, String password) throws Exception{
+    public ConsumersDto consumerLogin(String email, String password) throws RuntimeException {
 
-            ConsumersEntity entity = consRepo.findByEmailIdAndPassword(email, password).orElseThrow(() ->
-                    {
-                        List<ErrorModel> errorsType = new ArrayList<>();
-                        ErrorModel error = new ErrorModel();
-                        error.setErrorCode("LOGIN_TYPE_ERROR");
-                        error.setMessage("Incorrect email or password!");
-                        errorsType.add(error);
+        Optional<ConsumersEntity> entity = consRepo.findByEmailIdAndPassword(email, password);
 
-                        return new BusinessException(errorsType);
-                    }
-            );
+        ConsumersDto consumerResult;
+        if (entity.isPresent()) {
+            consumerResult = classConvo.fromConsumersEntityToConsumersDto(entity.get());
+        } else {
+            List<ErrorModel> errorsType = new ArrayList<>();
+            ErrorModel error = new ErrorModel();
+            error.setErrorCode("LOGIN_TYPE_ERROR");
+            error.setMessage("Incorrect email or password!");
+            errorsType.add(error);
 
-        return classConvo.fromConsumersEntityToConsumersDto(entity);
+            throw new BusinessException(errorsType);
+        }
+        return consumerResult;
     }
 
     @Override
