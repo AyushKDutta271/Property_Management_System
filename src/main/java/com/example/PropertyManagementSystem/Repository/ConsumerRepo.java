@@ -13,4 +13,5 @@ import java.util.Optional;
 public interface ConsumerRepo extends CrudRepository<ConsumersEntity,Long> {
     List<ConsumersEntity> findAllConsumersByCategory(CATEGORY category);
     Optional<ConsumersEntity> findByEmailIdAndPassword(String email, String password);
+    Optional<ConsumersEntity> findByEmailId(String email);
 }
