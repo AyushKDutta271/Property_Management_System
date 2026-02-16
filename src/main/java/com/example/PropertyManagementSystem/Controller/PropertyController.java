@@ -6,6 +6,7 @@ import com.example.PropertyManagementSystem.STATUS;
 import com.example.PropertyManagementSystem.Service.ConsumerLoginService;
 import com.example.PropertyManagementSystem.Service.PropertyService;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -51,21 +52,21 @@ public class PropertyController {
     }
 
     @PostMapping("/addConsumer")
-    public ResponseEntity<ConsumersDto> addConsumer(@RequestBody ConsumersDetailsDto consumer)
+    public ResponseEntity<ConsumersDto> addConsumer(@Valid @RequestBody ConsumersDetailsDto consumer)
     {
        ConsumersDto result= service.createConsumer(consumer);
        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @PostMapping("/addPropertyForSell")
-    public ResponseEntity<PropertyDto> addPropertyForSell(@RequestBody PropertyDetailsDto property)
+    public ResponseEntity<PropertyDto> addPropertyForSell( @Valid @RequestBody PropertyDetailsDto property)
     {
         PropertyDto result=  service.postProperty(property);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @PatchMapping("/updateFieldInPropertyByPropertyId")
-    public ResponseEntity<PropertyDto> updateFieldInPropertyByPropertyId(@RequestParam Long PropertyId,@RequestBody Map<String,Object> field)
+    public ResponseEntity<PropertyDto> updateFieldInPropertyByPropertyId(@RequestParam Long PropertyId,@Valid @RequestBody Map<String,Object> field)
     {
         PropertyDto property=service.updatePropertyFieldByPropertyId(PropertyId,field);
         return ResponseEntity.status(HttpStatus.CREATED).body(property);
@@ -79,7 +80,7 @@ public class PropertyController {
     }
 
     @PutMapping("/updateCompletePropertyByPropertyId/{PropertyId}")
-    public ResponseEntity<PropertyDto> updateCompletePropertyByPropertyId(@PathVariable Long PropertyId, @RequestBody PropertyDetailsDto property)
+    public ResponseEntity<PropertyDto> updateCompletePropertyByPropertyId(@PathVariable Long PropertyId,@Valid @RequestBody PropertyDetailsDto property)
     {
        PropertyDto result= service.updatePropertyByPropertyId(PropertyId, property);
        return ResponseEntity.status(HttpStatus.CREATED).body(result);
@@ -93,7 +94,7 @@ public class PropertyController {
     }
 
     @PostMapping("/consumerLogin")
-    public ResponseEntity<ConsumersDto> consumerLogin(@RequestBody ConsumerLoginDto body) throws Exception
+    public ResponseEntity<ConsumersDto> consumerLogin(@Valid @RequestBody ConsumerLoginDto body) throws Exception
     {
            ConsumersDto consumer= consLoginService.consumerLogin(body.getEmailId(),body.getPassword());
            return ResponseEntity.ok(consumer);
