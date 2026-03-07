@@ -4,6 +4,7 @@ import com.example.PropertyManagementSystem.Dto.ConsumersDetailsDto;
 import com.example.PropertyManagementSystem.Dto.ConsumersDto;
 import com.example.PropertyManagementSystem.Dto.PropertyDetailsDto;
 import com.example.PropertyManagementSystem.Dto.PropertyDto;
+import com.example.PropertyManagementSystem.Entity.PropertyEntity;
 import com.example.PropertyManagementSystem.STATUS;
 
 
@@ -12,6 +13,7 @@ import java.util.Map;
 
 public interface PropertyService {
    List<ConsumersDto> getAllConsumersByCategory(String category);
+   List<PropertyDto> getAllProperties();
    List<PropertyDto> getAllPropertiesByCustomerId(Long CustomerId);
    PropertyDto getPropertyByPropertyId(Long PropertyId);
    ConsumersDto createConsumer(ConsumersDetailsDto consumer);

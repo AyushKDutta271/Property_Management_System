@@ -25,6 +25,7 @@ public class ConsumersDto {
     private CATEGORY category;
     private Long propertyId;
 
+
     public Long getId() {
         return id;
     }

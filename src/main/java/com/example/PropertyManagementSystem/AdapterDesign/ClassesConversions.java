@@ -7,10 +7,16 @@ import com.example.PropertyManagementSystem.Dto.PropertyDto;
 import com.example.PropertyManagementSystem.Entity.ConsumersEntity;
 import com.example.PropertyManagementSystem.Entity.PropertyEntity;
 
+import com.example.PropertyManagementSystem.Repository.ConsumerRepo;
+import com.example.PropertyManagementSystem.Repository.PropertyRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ClassesConversions {
+
+    @Autowired
+    ConsumerRepo consRepo;
 
 
     public ConsumersEntity fromConsumersDtoToConsumerEntity(ConsumersDetailsDto consumer)
@@ -34,17 +40,19 @@ public class ClassesConversions {
 
     public PropertyEntity fromPropertyDtoToPropertyEntity(PropertyDetailsDto property)
     {
-        PropertyEntity prop = new PropertyEntity();
-        prop.setType(property.getType());
-        prop.setOwnerId(property.getOwnerId());
-        prop.setSellerId(property.getSellerId());
-        prop.setStatus(property.getStatus());
+        ConsumersEntity consEn= consRepo.findById(property.getOwner()).orElseThrow(()->new IllegalArgumentException());
+        PropertyEntity prop = new PropertyEntity(property.getSellerId(),property.getStatus(),property.getType(),consEn);
+
         return prop;
     }
 
     public PropertyDto fromPropertyEntityToPropertyDto(PropertyEntity prop)
     {
-        return  new PropertyDto(prop.getId(),prop.getSellerId(),prop.getStatus(),prop.getType(),prop.getOwnerId());
+       ConsumersEntity consEn=prop.getOwner();
+       Long id= consEn.getId();
+        return  new PropertyDto(prop.getId(),prop.getSellerId(),prop.getStatus(),prop.getType(),id);
     }
 
 }
+
+
