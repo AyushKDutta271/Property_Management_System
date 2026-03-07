@@ -1,5 +1,6 @@
 package com.example.PropertyManagementSystem.Dto;
 
+import com.example.PropertyManagementSystem.Entity.ConsumersEntity;
 import com.example.PropertyManagementSystem.PropertyType;
 import com.example.PropertyManagementSystem.STATUS;
 import jakarta.validation.constraints.NotNull;
@@ -17,5 +18,5 @@ public class PropertyDetailsDto {
     @NotNull(message="choose property type")
     private PropertyType type;
 
-    private Long ownerId;
+    private Long owner;
 }

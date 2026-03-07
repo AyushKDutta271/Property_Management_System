@@ -1,5 +1,6 @@
 package com.example.PropertyManagementSystem.Dto;
 
+import com.example.PropertyManagementSystem.Entity.ConsumersEntity;
 import com.example.PropertyManagementSystem.PropertyType;
 import com.example.PropertyManagementSystem.STATUS;
 import lombok.*;
@@ -12,6 +13,6 @@ public class PropertyDto {
     private Long sellerId;
     private STATUS status;
     private PropertyType type;
-    private Long ownerId;
+    private Long owner;
 
 }

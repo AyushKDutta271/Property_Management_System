@@ -22,7 +22,13 @@ public class ConsumersEntity {
 
     @Enumerated(EnumType.STRING)
     private CATEGORY category;
+
+
     private Long propertyId;
+
+    @OneToOne
+    @JoinColumn(name="address_id", nullable=false)
+    private AddressEntity address;
 
     public Long getId() {
         return id;
@@ -86,5 +92,13 @@ public class ConsumersEntity {
 
     public void setPropertyId(Long propertyId) {
         this.propertyId = propertyId;
+    }
+
+    public AddressEntity getAddress() {
+        return address;
+    }
+
+    public void setAddress(AddressEntity address) {
+        this.address = address;
     }
 }

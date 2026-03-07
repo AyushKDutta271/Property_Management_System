@@ -1,8 +1,7 @@
 package com.example.PropertyManagementSystem.Dto;
 
 import com.example.PropertyManagementSystem.CATEGORY;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -31,4 +30,12 @@ public class ConsumersDetailsDto {
 
     @NotNull(message = "Enter property-id if you're seller")
     private Long propertyId;
+
+
+    private String houseNo;
+    private String street;
+    private String city;
+    private String postalCode;
+    private String country;
+
 }
